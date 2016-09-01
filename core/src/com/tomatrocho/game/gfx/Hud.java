@@ -12,6 +12,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tomatrocho.game.MarioBros;
 
 public class Hud {
+	
+	/**
+	 * 
+	 */
+	private Viewport viewport;
 
 	/**
 	 * 
@@ -21,7 +26,7 @@ public class Hud {
 	/**
 	 * 
 	 */
-	private Viewport viewport;
+	private Label scoreLabel;
 	
 	/**
 	 * 
@@ -34,19 +39,43 @@ public class Hud {
 	 * @param spriteBatch
 	 */
 	public Hud(SpriteBatch spriteBatch) {
-		viewport = new FitViewport(MarioBros.V_W, MarioBros.V_H, new OrthographicCamera());
-		stage = new Stage(viewport, spriteBatch);
+		this.viewport = new FitViewport(MarioBros.V_W, MarioBros.V_H, new OrthographicCamera());
+		this.stage = new Stage(viewport, spriteBatch);
 		
 		Table table = new Table();
 		table.top();
 		table.setFillParent(true);
 		
-		BitmapFont font = new BitmapFont();
-		countdownLabel = new Label("<3 tomatrocho <3", new Label.LabelStyle(font, Color.WHITE));
+		Label.LabelStyle labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 		
-		table.add(countdownLabel).expandX().padTop(10);
+		table.add(new Label("Score", labelStyle)).expandX().padTop(8);
+		table.add(new Label("Time", labelStyle)).expandX().padTop(8);
+		
+		table.row();
+		
+		scoreLabel = new Label("", labelStyle);
+		countdownLabel = new Label("", labelStyle);
+		
+		table.add(scoreLabel);
+		table.add(countdownLabel);
 		
 		stage.addActor(table);
+	}
+	
+	/**
+	 * 
+	 * @param score
+	 */
+	public void setScore(int score) {
+		scoreLabel.setText(String.format("%06d", score));
+	}
+	
+	/**
+	 * 
+	 * @param levelTimer
+	 */
+	public void setLevelTimer(int levelTimer) {
+		countdownLabel.setText(String.format("%03d", levelTimer));
 	}
 	
 	/**

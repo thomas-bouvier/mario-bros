@@ -1,12 +1,9 @@
 package com.tomatrocho.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.tomatrocho.game.entity.mob.Player;
 import com.tomatrocho.game.screens.GameScreen;
-import com.tomatrocho.game.world.Level;
-import com.tomatrocho.game.world.WorldInformation;
-import com.tomatrocho.game.world.WorldList;
 
 public class MarioBros extends Game {
 	
@@ -28,53 +25,22 @@ public class MarioBros extends Game {
 	/**
 	 * 
 	 */
+	public static final boolean DEBUG = false;
+	
+	/**
+	 * 
+	 */
 	private SpriteBatch spriteBatch;
-	
-	/**
-	 * 
-	 */
-	private Level level;
-	
-	/**
-	 * 
-	 */
-	private Player player;
 	
 	
 	@Override
 	public void create() {
-		init();
-		
-		setScreen(new GameScreen(this));
-	}
-	
-	/**
-	 * 
-	 */
-	private void init() {
 		spriteBatch = new SpriteBatch();
 		
-		initLevel();
-	}
-	
-	/**
-	 * 
-	 */
-	private void initLevel() {
-		level = new Level();
-		createWorld(WorldList.getLevelByName("level-1"));
+		Gdx.app.log("test", "loading all resources");
+		AssetContainer.loadAllRessources();
 		
-		if (level.getWorld() != null) {
-			player = new Player(level);
-		}
-	}
-	
-	/**
-	 * 
-	 * @param wi
-	 */
-	private void createWorld(WorldInformation wi) {
-		level.generateWorld(wi);
+		setScreen(new GameScreen(this));
 	}
 
 	@Override
@@ -90,19 +56,10 @@ public class MarioBros extends Game {
 		return spriteBatch;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public Level getLevel() {
-		return level;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Player getPlayer() {
-		return player;
+	@Override
+	public void dispose() {
+		super.dispose();
+		
+		spriteBatch.dispose();
 	}
 }
